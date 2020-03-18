@@ -10,7 +10,7 @@ function requestChatBot(loc) {
     if (params['userId']) {
         path += "&userId=" + params['userId'];
     }
-    oReq.open("POST", path);
+    oReq.open("GET", path);
     oReq.send();
 }
 
@@ -72,6 +72,27 @@ function initBotConversation() {
     });
     startChat(user, botConnection);
 
+    //Use the following to handle query parameters inline if the url contains a scenario parameter use that i.e. ?scenario=yourscenarioid
+    /*
+    var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+        var p=a[i].split('=', 2);
+        if (p.length == 1)
+            b[p[0]] = "";
+        else
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+    })(window.location.search.substr(1).split('&'));
+
+    var scenario = "--yourscenarioid--";
+    
+    if (!qs["scenario"] == "" | qs.lenght > 0){scenario = qs["scenario"]};
+    */
+    
     // Use the following activity to enable an authenticated end user experience.
     /*
     botConnection.postActivity(
@@ -79,7 +100,7 @@ function initBotConversation() {
     }).subscribe(function (id) {});
     */
 
-    // Use the following activity to proactively invoke a bot scenario. 
+    // Use the following activity to proactively invoke a bot scenario from the query parameter if specified 
     /*
     botConnection.postActivity({
         type: "invoke",
